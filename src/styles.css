@@ -1,0 +1,88 @@
+@import "tailwindcss";
+
+@theme {
+  --shadow-custom-project: 40px 180px 80px 3px rgba(28, 29, 34, 0.06);
+  --font-exo-2: "Exo 2", sans-serif;
+  --font-baloo-2: "Baloo 2", sans-serif;
+}
+
+.project-list {
+  position: relative;
+  /* padding-left: 20px; Space for the line */
+}
+
+.project-list::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 3px; /* Thickness of the line */
+  height: 100%;
+  /* border-radius: 2px; */
+  background-color: #e5e5e5;
+}
+
+.dark .project-list::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 3px; /* Thickness of the line */
+  height: 100%;
+  /* border-radius: 2px; */
+  background-color: #ffffff1a;
+}
+
+.project-list-element {
+  display: flex;
+  align-items: center; /* Center the line vertically */
+}
+
+.project-list-element::before {
+  content: "";
+  width: 20px;
+  height: 3px;
+  margin-left: 3px;
+  background-color: #e5e5e5;
+}
+
+.dark .project-list-element::before {
+  content: "";
+  width: 20px;
+  height: 3px;
+  margin-left: 3px;
+  background-color: #ffffff1a;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 7px;
+  scroll-behavior: smooth;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #c9c9c9;
+}
+
+.dark ::-webkit-scrollbar-track {
+  background: #ffffff77;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: #2b7fff;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #2b7fff;
+}
