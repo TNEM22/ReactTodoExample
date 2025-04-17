@@ -35,53 +35,57 @@ const Projects = () => {
   }, [theme]);
 
   useEffect(() => {
-    const url = `${SERVER_URL}/api/v1/projects/`;
-    toast.promise(
-      fetch(url, {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${localStorage.token}`,
-        },
-      })
-        .then((dd) => dd.json())
-        .then((dd) => {
-          if (dd.status === "error") {
-            throw new Error();
-          } else {
-            const newSubTasks = { ...subTasks };
-            const newProjects = { ...projects };
-
-            dd.data.forEach((item) => {
-              const projectname = item.title.toUpperCase().replaceAll(" ", "_");
-
-              newSubTasks["PROJECTS"][projectname] = {
-                id: item._id,
-                title: item.title,
-                count: -1,
-                isActive: false,
-              };
-
-              newProjects[projectname] = {
-                TODO: [],
-                IN_PROGRESS: [],
-                DONE: [],
-              };
-            });
-
-            setSubTasks(newSubTasks);
-            setProjects(newProjects);
-          }
+    if (localStorage.token && localStorage.name) {
+      const url = `${SERVER_URL}/api/v1/projects/`;
+      toast.promise(
+        fetch(url, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${localStorage.token}`,
+          },
         })
-        .catch((err) => {
-          console.error(err);
-          throw new Error(err);
-        }),
-      {
-        pending: "Finding projects...",
-        success: "Projects Intialized!",
-        error: "Cannot Get Projects!",
-      }
-    );
+          .then((dd) => dd.json())
+          .then((dd) => {
+            if (dd.status === "error") {
+              throw new Error();
+            } else {
+              const newSubTasks = { ...subTasks };
+              const newProjects = { ...projects };
+
+              dd.data.forEach((item) => {
+                const projectname = item.title
+                  .toUpperCase()
+                  .replaceAll(" ", "_");
+
+                newSubTasks["PROJECTS"][projectname] = {
+                  id: item._id,
+                  title: item.title,
+                  count: -1,
+                  isActive: false,
+                };
+
+                newProjects[projectname] = {
+                  TODO: [],
+                  IN_PROGRESS: [],
+                  DONE: [],
+                };
+              });
+
+              setSubTasks(newSubTasks);
+              setProjects(newProjects);
+            }
+          })
+          .catch((err) => {
+            console.error(err);
+            throw new Error(err);
+          }),
+        {
+          pending: "Finding projects...",
+          success: "Projects Intialized!",
+          error: "Cannot Get Projects!",
+        }
+      );
+    }
   }, []);
 
   const [menuOpen, setMenuOpen] = useState(false);
