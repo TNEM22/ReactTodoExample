@@ -31,6 +31,7 @@ const SignupPage = () => {
       passwordConfirm.trim()
     ) {
       const url = `${SERVER_URL}/api/v1/users/signup`;
+      console.log(name.split(" "));
       toast.promise(
         fetch(url, {
           method: "POST",
@@ -39,9 +40,9 @@ const SignupPage = () => {
           },
           body: JSON.stringify({
             email: email.trim(),
-            firstname: name.trim().split()[0],
-            middlename: name.trim().split()[1],
-            lastname: name.trim().split()[2],
+            firstname: name.trim().split(" ")[0],
+            lastname: name.trim().split(" ")[1],
+            middlename: name.trim().split(" ")[2],
             password: password.trim(),
             passwordConfirm: passwordConfirm.trim(),
           }),
