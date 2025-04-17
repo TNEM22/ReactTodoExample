@@ -1,7 +1,7 @@
 import React from "react";
 import { BsThreeDots } from "react-icons/bs";
 
-import useThemeStore from "../../../themeStore";
+import useThemeStore from "../../../store/themeStore";
 
 const Header = () => {
   const theme = useThemeStore((state) => state.theme);
@@ -13,7 +13,7 @@ const Header = () => {
         (theme === "dark" ? "border-[#FFFFFF1A]" : "border-[#1C1D2214]")
       }
     >
-      <div className="flex gap-3 -mb-[2.5px]  font-semibold">
+      <div className="flex gap-3 -mb-[2.5px] font-semibold">
         <span
           className={
             "flex items-center py-2 px-2 cursor-pointer border-b-3 " +

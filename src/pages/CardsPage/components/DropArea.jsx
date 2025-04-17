@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import useThemeStore from "../../../themeStore";
+import useThemeStore from "../../../store/themeStore";
 
 const DropArea = ({ handleDragOver, handleDrop, colId, idx }) => {
   const defaultDropSetting = "opacity-0 h-[10px]";
@@ -9,13 +9,11 @@ const DropArea = ({ handleDragOver, handleDrop, colId, idx }) => {
 
   function handleDragEnter(e) {
     e.preventDefault();
-    console.log("Drag enter");
     setCurrClass("opacity-100 h-[190px]");
   }
 
   function handleDragLeave(e) {
     e.preventDefault();
-    console.log("Drag exit");
     setCurrClass(defaultDropSetting);
   }
 
@@ -27,7 +25,6 @@ const DropArea = ({ handleDragOver, handleDrop, colId, idx }) => {
     >
       <div
         onDrop={(e) => {
-          console.log("Dropped");
           handleDrop(e, colId, idx);
           setCurrClass(defaultDropSetting);
         }}

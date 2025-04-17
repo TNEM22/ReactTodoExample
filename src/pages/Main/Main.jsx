@@ -2,7 +2,7 @@ import React from "react";
 
 import Header from "../Header/Header";
 import CardsPage from "../CardsPage/CardsPage";
-import useThemeStore from "../../themeStore";
+import useThemeStore from "../../store/themeStore";
 
 const Main = () => {
   const theme = useThemeStore((state) => state.theme);
