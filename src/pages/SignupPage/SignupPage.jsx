@@ -31,7 +31,6 @@ const SignupPage = () => {
       passwordConfirm.trim()
     ) {
       const url = `${SERVER_URL}/api/v1/users/signup`;
-      console.log(name.split(" "));
       toast.promise(
         fetch(url, {
           method: "POST",
