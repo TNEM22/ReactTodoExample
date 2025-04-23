@@ -10,15 +10,22 @@ import { SERVER_URL } from "../../Constants";
 import Header from "./components/Header";
 import Column from "./components/Column";
 import AddTask from "../../components/Task/AddTask";
+import EditTask from "../../components/Task/EditTask";
 import CreateProject from "../../components/Project/CreateProject";
 import DeleteProject from "../../components/Project/DeleteProject";
 
 const CardsPage = () => {
   const taskModalState = useModalStore((state) => state.taskModalState);
+  const createProjectState = useModalStore((state) => state.createProjectState);
+  const editProjectState = useModalStore((state) => state.editProjectState);
+  const deleteProjectState = useModalStore((state) => state.deleteProjectState);
+
   const setTaskModalState = useModalStore((state) => state.setTaskModalState);
   const setTaskColId = useModalStore((state) => state.setTaskColId);
-  const createProjectState = useModalStore((state) => state.createProjectState);
-  const deleteProjectState = useModalStore((state) => state.deleteProjectState);
+  const setEditProjectState = useModalStore(
+    (state) => state.setEditProjectState
+  );
+  const setTaskState = useModalStore((state) => state.setTask);
 
   const theme = useThemeStore((state) => state.theme);
 
@@ -172,6 +179,11 @@ const CardsPage = () => {
     });
   }, [selectedProject]);
 
+  useEffect(() => {
+    if (tasks && selectedProject)
+      setProjects({ ...projects, [selectedProject]: tasks });
+  }, [tasks]);
+
   const handleAddTask = (colId) => {
     setTaskColId(colId);
     setTaskModalState("open");
@@ -197,6 +209,31 @@ const CardsPage = () => {
       ...subTasks,
       TASKS: { ...subTasks["TASKS"], [colId]: tasksDesc },
     });
+  };
+
+  const handleEditTask = (colId, task) => {
+    setTaskColId(colId);
+    setTaskState(task);
+    setEditProjectState("open");
+  };
+
+  const editTask = (colId, projectId, task) => {
+    console.log("Task edited!");
+    console.log(colId, projectId, projects);
+    console.log(projects[projectId][colId]);
+    setTasks((prev) => ({
+      ...prev,
+      [colId]: prev[colId].filter((task) => task.id !== task.id),
+    }));
+
+    setTimeout(
+      () =>
+        setTasks((prev) => ({
+          ...prev,
+          [colId]: [...prev[colId], task],
+        })),
+      50
+    );
   };
 
   const handleDeleteTask = (colId, taskId) => {
@@ -272,6 +309,9 @@ const CardsPage = () => {
     // Add the element
     setTimeout(() => {
       droppingItem.status = colId;
+      if (droppingItem.status === "DONE") {
+        droppingItem.completedMilestones = droppingItem.milestones;
+      }
       const newColArray = [...tasks[colId]];
       if (idx === -1) {
         newColArray.splice(tasks[colId].length, 0, droppingItem);
@@ -301,7 +341,7 @@ const CardsPage = () => {
   }
 
   function changeTaskStatus(newStatus, taskId) {
-    const url = `${SERVER_URL}/api/v1/projects/task`;
+    const url = `${SERVER_URL}/api/v1/projects/task/status`;
     fetch(url, {
       method: "PATCH",
       headers: {
@@ -330,6 +370,9 @@ const CardsPage = () => {
     <>
       {taskModalState === "open" && (
         <AddTask width={window.innerWidth - 314 - 90} addTask={addTask} />
+      )}
+      {editProjectState === "open" && (
+        <EditTask width={window.innerWidth - 314 - 90} editTask={editTask} />
       )}
       {createProjectState === "open" && (
         <CreateProject width={window.innerWidth - 314 - 90} />
@@ -362,6 +405,7 @@ const CardsPage = () => {
                       setDroppingItem={setDroppingItem}
                       setCurrentContainer={setCurrentContainer}
                       addTask={handleAddTask}
+                      handleEditTask={handleEditTask}
                       deleteTask={handleDeleteTask}
                     />
                   );

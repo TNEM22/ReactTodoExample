@@ -13,6 +13,7 @@ const Column = ({
   setDroppingItem,
   setCurrentContainer,
   addTask,
+  handleEditTask,
   deleteTask,
 }) => {
   const theme = useThemeStore((state) => state.theme);
@@ -148,6 +149,7 @@ const Column = ({
               item={item}
               idx={idx}
               colId={colId}
+              handleEditTask={handleEditTask}
               deleteTask={deleteTask}
             />
           ))}

@@ -15,6 +15,7 @@ const Card = ({
   item,
   idx,
   colId,
+  handleEditTask,
   deleteTask,
 }) => {
   const theme = useThemeStore((state) => state.theme);
@@ -103,6 +104,7 @@ const Card = ({
                   }
                 >
                   <div
+                    onClick={() => handleEditTask(colId, item)}
                     className={
                       "flex items-center cursor-pointer rounded-t p-1 " +
                       (theme === "dark"
